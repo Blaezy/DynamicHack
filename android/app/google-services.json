@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "262348989945",
+    "project_id": "studieee",
+    "storage_bucket": "studieee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262348989945:android:c83ada97eb7defc20a0928",
+        "android_client_info": {
+          "package_name": "com.example.studieey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262348989945-ovc0kcsksv388aa29eh62oq40r1mvk68.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABrswbKMMmY6Tx51nNajS8AuNbS5KpJUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "262348989945-ovc0kcsksv388aa29eh62oq40r1mvk68.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

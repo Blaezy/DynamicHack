@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:studieey/Features/Lectures.dart';
 import 'package:studieey/Models/Authentication.dart';
+import 'package:studieey/Screens/HomeScreen.dart';
 import 'package:studieey/Screens/LoginSignUpUI.dart';
 
 import 'Screens/DashBoard.dart';
@@ -32,23 +33,24 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: StreamBuilder(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, userSnapshot) {
-              if (userSnapshot.hasData) {
-                // print(userSnapshot.data);
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: HomeScreen()
+          // StreamBuilder(
+          //     stream: FirebaseAuth.instance.authStateChanges(),
+          //     builder: (context, userSnapshot) {
+          //       if (userSnapshot.hasData) {
+          //         // print(userSnapshot.data);
 
-                return DashBoard(
-                  FirebaseAuth.instance.currentUser!.displayName.toString(),
-                );
-              } else
-                return LoginSignUpUI();
-            }),
-      ),
+          //         return DashBoard(
+          //           FirebaseAuth.instance.currentUser!.displayName.toString(),
+          //         );
+          //       } else
+          //         return LoginSignUpUI();
+          //     }),
+          ),
     );
   }
 }

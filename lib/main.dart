@@ -1,15 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:studieey/Features/AuthFunctionality.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:studieey/Features/Lectures.dart';
 import 'package:studieey/Models/Authentication.dart';
-import 'package:studieey/Screens/HomeScreen.dart';
-import 'package:studieey/Screens/LoginSignUpUI.dart';
-
-import 'Screens/DashBoard.dart';
+import 'package:studieey/Screens/AdminPanel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +32,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: HomeScreen()
+          home: Lectures()
           // StreamBuilder(
           //     stream: FirebaseAuth.instance.authStateChanges(),
           //     builder: (context, userSnapshot) {

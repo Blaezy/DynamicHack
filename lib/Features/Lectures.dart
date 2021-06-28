@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:studieey/Features/SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight.dart';
 import 'package:studieey/Models/Slots.dart';
 import 'package:studieey/Models/teacher.dart';
@@ -13,16 +15,21 @@ class Lectures extends StatefulWidget {
 
 class _LecturesState extends State<Lectures> {
   List<SlotItem> slotItems = [];
+  List<SlotItem> todays = [];
   Future<void> getLectures() async {
     List<SlotItem> slotsFromWeb = [];
+    List<SlotItem> todaysSlotFromWeb = [];
+    DateTime dateTime = DateTime.now();
+    print(dateTime
+        .toString()); // prints something like 2019-12-10 10:02:22.287949
+    String day = DateFormat('EEEE').format(dateTime).toString();
+    print(day);
     print("Executed");
     await FirebaseFirestore.instance
         .collection('Slots')
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        print(doc['day']);
-        print(doc['interval']);
         slotsFromWeb.add(SlotItem(
             day: doc['day'],
             interval: doc['interval'],
@@ -36,294 +43,15 @@ class _LecturesState extends State<Lectures> {
       });
     });
     slotItems = slotsFromWeb;
+    todaysSlotFromWeb =
+        slotsFromWeb.where((element) => element.day == day).toList();
+    todaysSlotFromWeb..sort((a, b) => a.interval.compareTo(b.interval));
     setState(() {
       slotItems = slotsFromWeb;
+      todays = todaysSlotFromWeb;
     });
-    print(slotsFromWeb.length);
   }
 
-  // List<SlotItem> slotItems = [
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Saturday")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "Friday")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "Thursday")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Wednesday")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "Tuesday")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "Monday")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Days/Period")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 2,
-  //       t1: Teacher(id: 2, name: "Beta", subject: "CN")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 3,
-  //       t1: Teacher(id: 3, name: "Gamma", subject: "MAD")),
-  //   SlotItem(
-  //       isAvailable: false,
-  //       day: 2,
-  //       interval: 1,
-  //       t1: Teacher(id: 1, name: "Alpha", subject: "Maths")),
-  // ];
   void initState() {
     getLectures();
     super.initState();
@@ -332,76 +60,169 @@ class _LecturesState extends State<Lectures> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Lectures"),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(4),
-        child: RotationTransition(
-          turns: AlwaysStoppedAnimation(0 / 360),
-          child: RefreshIndicator(
-            onRefresh: () {
-              return getLectures();
-            },
-            child: ConnectionState == ConnectionState.waiting
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : GridView.builder(
-                    gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
-                            height: MediaQuery.of(context).size.height * 0.11,
-                            crossAxisCount: 6),
-                    itemCount: slotItems.length,
+        appBar: AppBar(
+          title: Text("Lectures"),
+        ),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            getLectures();
+          },
+          child: Row(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: RotatedBox(
+                      quarterTurns: 3,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            List<SlotItem> temp = [];
+                            temp = slotItems
+                                .where((element) => element.day == "Monday")
+                                .toList();
+                            setState(() {
+                              todays = temp;
+                            });
+                          },
+                          child: Text(
+                            "Monday",
+                            style: GoogleFonts.encodeSansSemiExpanded(),
+                          )),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: RotatedBox(
+                      quarterTurns: 3,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            List<SlotItem> temp = [];
+                            temp = slotItems
+                                .where((element) => element.day == "Tuesday")
+                                .toList();
+                            setState(() {
+                              todays = temp;
+                            });
+                          },
+                          child: Text(
+                            "Tuesday",
+                            style: GoogleFonts.encodeSansSemiExpanded(),
+                          )),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: RotatedBox(
+                      quarterTurns: 3,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            List<SlotItem> temp = [];
+                            temp = slotItems
+                                .where((element) => element.day == "Wednesday")
+                                .toList();
+                            setState(() {
+                              todays = temp;
+                            });
+                          },
+                          child: Text(
+                            "Wednesday",
+                            style: GoogleFonts.encodeSansSemiExpanded(),
+                          )),
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: ListView.builder(
+                    itemCount: todays.length,
                     itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () => showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) => RotatedBox(
-                            quarterTurns: 1,
-                            child: AlertDialog(
-                              title: const Text(
-                                  'Do you wish make Temporary changes in time table'),
-                              content: Text(
-                                  "This would be reflected in the everyone's timetable for ${slotItems[index].t1.subject} at slot ${slotItems[index].interval}"),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    print(slotItems[index].t1.subject);
-                                    Navigator.pop(context, 'Cancel');
-                                  },
-                                  child: const Text('Cancel'),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      slotItems[index].t1.subject = "Shivam";
-                                    });
-                                    Navigator.pop(context, 'OK');
-                                  },
-                                  child: const Text('OK'),
-                                ),
-                              ],
+                      return Padding(
+                        padding: EdgeInsets.all(10),
+                        child: ListTile(
+                            tileColor: todays[index].isAvailable
+                                ? Colors.lightGreenAccent
+                                : Colors.amber,
+                            subtitle: Text(
+                              todays[index].t1.name,
+                              style: GoogleFonts.encodeSansSemiExpanded(),
                             ),
-                          ),
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blueAccent),
-                              borderRadius: BorderRadius.circular(3),
-                              color: Colors.white),
-                          child: RotationTransition(
-                            turns: AlwaysStoppedAnimation(45 / 360),
-                            child: Center(
-                              child: Text(slotItems[index].t1.subject),
-                            ),
-                          ),
-                        ),
+                            onTap: () {},
+                            title: Text(
+                              todays[index].t1.subject,
+                              style: GoogleFonts.encodeSansSemiExpanded(),
+                            )),
                       );
                     }),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: RotatedBox(
+                      quarterTurns: 3,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            List<SlotItem> temp = [];
+                            temp = slotItems
+                                .where((element) => element.day == "Thursday")
+                                .toList();
+                            setState(() {
+                              todays = temp;
+                            });
+                          },
+                          child: Text(
+                            "Thursday",
+                            style: GoogleFonts.encodeSansSemiExpanded(),
+                          )),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: RotatedBox(
+                      quarterTurns: 3,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            List<SlotItem> temp = [];
+                            temp = slotItems
+                                .where((element) => element.day == "Friday")
+                                .toList();
+                            setState(() {
+                              todays = temp;
+                            });
+                          },
+                          child: Text(
+                            "Friday",
+                            style: GoogleFonts.encodeSansSemiExpanded(),
+                          )),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: RotatedBox(
+                      quarterTurns: 3,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            List<SlotItem> temp = [];
+                            temp = slotItems
+                                .where((element) => element.day == "Saturday")
+                                .toList();
+                            setState(() {
+                              todays = temp;
+                            });
+                          },
+                          child: Text(
+                            "Saturday",
+                            style: GoogleFonts.encodeSansSemiExpanded(),
+                          )),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

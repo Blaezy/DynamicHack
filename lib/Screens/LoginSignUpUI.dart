@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:studieey/Models/Authentication.dart';
 import 'package:studieey/Models/UserDetails.dart';
 import 'package:provider/provider.dart';
+import 'package:studieey/Screens/HomeScreen.dart';
 
 class LoginSignUpUI extends StatefulWidget {
   static const routeName = "/LoginSignup";
@@ -288,7 +289,9 @@ class _LoginSignUpUIState extends State<LoginSignUpUI> {
                           //     .runtimeType);
 
                           print(teacher);
-                          Navigator.of(context).pop();
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen()));
                         },
                         child: Text("Go back",
                             style: GoogleFonts.encodeSansSemiExpanded()))),

@@ -70,174 +70,191 @@ class _AdminDropDownState extends State<AdminDropDown> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Container(
-            padding: EdgeInsets.all(30.0),
-            child: Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.green, width: 1),
-                    borderRadius: BorderRadius.circular(15)),
-                child: DropdownButton<String>(
-                    isExpanded: true,
-                    hint: Text("Select Day"),
-                    value: day,
-                    icon: const Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        day = newValue!;
-                      });
-                    },
-                    items: days
-                        .map<DropdownMenuItem<String>>(
-                          (e) => DropdownMenuItem(
-                            value: e,
-                            child: Text(e),
-                          ),
-                        )
-                        .toList())),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [Color(0xFFDAE2F8), Color(0xFFD6A4A4)]),
           ),
-          Container(
-            padding: EdgeInsets.all(30.0),
-            child: Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.green, width: 1),
-                    borderRadius: BorderRadius.circular(15)),
-                child: DropdownButton<Map<int, String>>(
-                    isExpanded: true,
-                    hint: Text("Select Period"),
-                    value: interval,
-                    icon: const Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    onChanged: (Map<int, String>? newValue) {
-                      setState(() {
-                        interval = newValue!;
-                      });
-                    },
-                    items: Period.map<DropdownMenuItem<Map<int, String>>>(
-                      (e) => DropdownMenuItem(
-                        value: e,
-                        child: Text("${e.keys} - ${e.values}"),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Container(
+              child: Text(
+                "Adjust all the classes",
+                style: GoogleFonts.encodeSansSemiCondensed(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(30.0),
+              child: Container(
+                  padding: EdgeInsets.only(left: 16, right: 16),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.green, width: 1),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: DropdownButton<String>(
+                      isExpanded: true,
+                      hint: Text("Select Day"),
+                      value: day,
+                      icon: const Icon(Icons.arrow_downward),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.deepPurpleAccent,
                       ),
-                    ).toList())),
-          ),
-          Container(
-            padding: EdgeInsets.all(30.0),
-            child: Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.green, width: 1),
-                    borderRadius: BorderRadius.circular(15)),
-                child: DropdownButton<Teacher>(
-                    isExpanded: true,
-                    hint: Text("Select Teacher"),
-                    value: dropdownValue,
-                    icon: const Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    onChanged: (Teacher? newValue) {
-                      setState(() {
-                        dropdownValue = newValue!;
-                      });
-                    },
-                    items: teacherss1
-                        .map<DropdownMenuItem<Teacher>>(
-                          (e) => DropdownMenuItem(
-                            value: e,
-                            child: Text("${e.subject} - ${e.name}"),
-                          ),
-                        )
-                        .toList())),
-          ),
-          ElevatedButton(
-              onPressed: () async {
-                int? intervals;
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          day = newValue!;
+                        });
+                      },
+                      items: days
+                          .map<DropdownMenuItem<String>>(
+                            (e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e),
+                            ),
+                          )
+                          .toList())),
+            ),
+            Container(
+              padding: EdgeInsets.all(30.0),
+              child: Container(
+                  padding: EdgeInsets.only(left: 16, right: 16),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.green, width: 1),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: DropdownButton<Map<int, String>>(
+                      isExpanded: true,
+                      hint: Text("Select Period"),
+                      value: interval,
+                      icon: const Icon(Icons.arrow_downward),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.deepPurpleAccent,
+                      ),
+                      onChanged: (Map<int, String>? newValue) {
+                        setState(() {
+                          interval = newValue!;
+                        });
+                      },
+                      items: Period.map<DropdownMenuItem<Map<int, String>>>(
+                        (e) => DropdownMenuItem(
+                          value: e,
+                          child: Text("${e.keys} - ${e.values}"),
+                        ),
+                      ).toList())),
+            ),
+            Container(
+              padding: EdgeInsets.all(30.0),
+              child: Container(
+                  padding: EdgeInsets.only(left: 16, right: 16),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.green, width: 1),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: DropdownButton<Teacher>(
+                      isExpanded: true,
+                      hint: Text("Select Teacher"),
+                      value: dropdownValue,
+                      icon: const Icon(Icons.arrow_downward),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.deepPurpleAccent,
+                      ),
+                      onChanged: (Teacher? newValue) {
+                        setState(() {
+                          dropdownValue = newValue!;
+                        });
+                      },
+                      items: teacherss1
+                          .map<DropdownMenuItem<Teacher>>(
+                            (e) => DropdownMenuItem(
+                              value: e,
+                              child: Text("${e.subject} - ${e.name}"),
+                            ),
+                          )
+                          .toList())),
+            ),
+            ElevatedButton(
+                onPressed: () async {
+                  int? intervals;
 
-                interval!.forEach((key, value) {
-                  intervals = key;
-                });
-                await FirebaseFirestore.instance
-                    .collection("Slots")
-                    .doc(day! + interval!.keys.toString())
-                    .set({
-                  'isAvailable': true,
-                  'day': day.toString(),
-                  'interval': intervals,
-                  'teacher': {
-                    'id': "Not Assigned",
-                    'name': "Not Assigned",
-                    'subject': "Not Assigned"
-                  },
-                });
-              },
-              child: Text(
-                "Free Period",
-                style: GoogleFonts.encodeSansSemiExpanded(),
-              )),
-          TextButton(
-              onPressed: () async {
-                print(day);
-                print(dropdownValue);
-                print(interval);
-                int? intervals;
-
-                interval!.forEach((key, value) {
-                  intervals = key;
-                });
-
-                await FirebaseFirestore.instance
-                    .collection("Slots")
-                    .doc(day! + interval!.keys.toString())
-                    .set({
-                  'isAvailable': false,
-                  'day': day.toString(),
-                  'interval': intervals,
-                  'teacher': {
-                    'id': dropdownValue!.id,
-                    'name': dropdownValue!.name,
-                    'subject': dropdownValue!.subject
-                  },
-                }).then((value) {
-                  setState(() {
-                    interval = null;
-                    dropdownValue = null;
-                    day = null;
+                  interval!.forEach((key, value) {
+                    intervals = key;
                   });
-                });
-              },
-              child: Text(
-                "Add Slot",
-                style: GoogleFonts.encodeSansSemiExpanded(),
-              )),
-          ElevatedButton(
-              onPressed: () {
-                print(ModalRoute.of(context)!.settings.arguments);
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'Go back',
-                style: GoogleFonts.encodeSansSemiExpanded(),
-              ))
-        ]),
+                  await FirebaseFirestore.instance
+                      .collection("Slots")
+                      .doc(day! + interval!.keys.toString())
+                      .set({
+                    'isAvailable': true,
+                    'day': day.toString(),
+                    'interval': intervals,
+                    'teacher': {
+                      'id': "Not Assigned",
+                      'name': "Not Assigned",
+                      'subject': "Not Assigned"
+                    },
+                  });
+                },
+                child: Text(
+                  "Free Period",
+                  style: GoogleFonts.encodeSansSemiExpanded(),
+                )),
+            TextButton(
+                onPressed: () async {
+                  print(day);
+                  print(dropdownValue);
+                  print(interval);
+                  int? intervals;
+
+                  interval!.forEach((key, value) {
+                    intervals = key;
+                  });
+
+                  await FirebaseFirestore.instance
+                      .collection("Slots")
+                      .doc(day! + interval!.keys.toString())
+                      .set({
+                    'isAvailable': false,
+                    'day': day.toString(),
+                    'interval': intervals,
+                    'teacher': {
+                      'id': dropdownValue!.id,
+                      'name': dropdownValue!.name,
+                      'subject': dropdownValue!.subject
+                    },
+                  }).then((value) {
+                    setState(() {
+                      interval = null;
+                      dropdownValue = null;
+                      day = null;
+                    });
+                  });
+                },
+                child: Text(
+                  "Add Slot",
+                  style: GoogleFonts.encodeSansSemiExpanded(),
+                )),
+            ElevatedButton(
+                onPressed: () {
+                  print(ModalRoute.of(context)!.settings.arguments);
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Go back',
+                  style: GoogleFonts.encodeSansSemiExpanded(),
+                ))
+          ]),
+        ),
       ),
     );
   }

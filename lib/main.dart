@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:studieey/Features/Lectures.dart';
 import 'package:studieey/Models/Authentication.dart';
+import 'package:studieey/Screens/Account.dart';
 import 'package:studieey/Screens/AdminDropDown.dart';
 import 'package:studieey/Screens/DashBoard.dart';
 import 'package:studieey/Screens/HomeScreen.dart';
@@ -40,20 +41,16 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home:
-            // Lectures(
-            //   isTeacher: true,
-            // ),
-            StreamBuilder(
-                stream: FirebaseAuth.instance.authStateChanges(),
-                builder: (context, userSnapshot) {
-                  if (userSnapshot.hasData) {
-                    return DashBoard(
-                      FirebaseAuth.instance.currentUser!.displayName.toString(),
-                    );
-                  } else
-                    return HomeScreen();
-                }),
+        home: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, userSnapshot) {
+              if (userSnapshot.hasData) {
+                return DashBoard(
+                  FirebaseAuth.instance.currentUser!.displayName.toString(),
+                );
+              } else
+                return HomeScreen();
+            }),
         routes: {
           AdminDropDown.routeName: (ctx) => AdminDropDown(),
           LoginSignUpUI.routeName: (ctx) => LoginSignUpUI(),
@@ -61,6 +58,9 @@ class _MyAppState extends State<MyApp> {
             return DashBoard(
                 FirebaseAuth.instance.currentUser!.displayName.toString());
           },
+          Account.routeName: (ctx) => Account(
+              username:
+                  FirebaseAuth.instance.currentUser!.displayName.toString())
         },
       ),
     );

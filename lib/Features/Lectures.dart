@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:studieey/Features/Drawer.dart';
 import 'package:studieey/Features/SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight.dart';
 import 'package:studieey/Models/Slots.dart';
 import 'package:studieey/Models/teacher.dart';
@@ -9,7 +10,8 @@ import 'package:studieey/Models/teacher.dart';
 class Lectures extends StatefulWidget {
   static const routeName = "/Lectures";
   bool isTeacher;
-  Lectures({required this.isTeacher});
+  String userName;
+  Lectures({required this.isTeacher, required this.userName});
 
   @override
   _LecturesState createState() => _LecturesState();
@@ -65,6 +67,7 @@ class _LecturesState extends State<Lectures> {
         appBar: AppBar(
           title: Text("Lectures"),
         ),
+        drawer: MyAppDrawer(username: widget.userName),
         body: RefreshIndicator(
           onRefresh: () async {
             getLectures();

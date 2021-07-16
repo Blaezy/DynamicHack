@@ -10,10 +10,12 @@ class AutheticationService {
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  Future<String?> signIn(
-      {required String email,
-      required String password,
-      required BuildContext context}) async {
+  Future<String?> signIn({
+    required String email,
+    required String password,
+    required BuildContext context,
+    required bool isTeacher,
+  }) async {
     try {
       UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -26,6 +28,7 @@ class AutheticationService {
       //Map<String, dynamic> data = collection;
       print(collection);
       print("Shivam");
+      print(isTeacher);
 
       // for (var queryDocumentSnapshot in collection) {
       //   Map<String, dynamic> data = queryDocumentSnapshot.data();
@@ -53,8 +56,8 @@ class AutheticationService {
       //     }
       //   },
       // );
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => DashBoard(user.displayName!)));
+      Navigator.of(context)
+          .pushNamed(DashBoard.routeName, arguments: isTeacher);
 
       return "Signed IN";
     } on FirebaseAuthException catch (e) {
@@ -64,11 +67,18 @@ class AutheticationService {
     }
   }
 
-  Future<String?> signUp(
-      {required String email,
-      required String password,
-      required String name,
-      required BuildContext context}) async {
+  Future<void> updateUserName(String name) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    await user!.updateDisplayName(name);
+  }
+
+  Future<String?> signUp({
+    required String email,
+    required String password,
+    required String name,
+    required BuildContext context,
+    required bool isTeacher,
+  }) async {
     try {
       UserCredential result = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -81,12 +91,14 @@ class AutheticationService {
       });
 
       User? user = result.user;
-      user!.updateDisplayName(name);
+
+      await user!.updateDisplayName(name);
       print(user.displayName);
       print(user.email);
+      print(ModalRoute.of(context)!.settings.arguments);
 
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => DashBoard(name)));
+      Navigator.of(context)
+          .pushNamed(DashBoard.routeName, arguments: isTeacher);
       return "Signed Up";
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)

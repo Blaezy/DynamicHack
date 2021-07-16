@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:studieey/Models/teacher.dart';
 
 class AdminDropDown extends StatefulWidget {
+  static const routeName = "/AdminDropDown";
   const AdminDropDown({Key? key}) : super(key: key);
 
   @override
@@ -225,6 +226,15 @@ class _AdminDropDownState extends State<AdminDropDown> {
               },
               child: Text(
                 "Add Slot",
+                style: GoogleFonts.encodeSansSemiExpanded(),
+              )),
+          ElevatedButton(
+              onPressed: () {
+                print(ModalRoute.of(context)!.settings.arguments);
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Go back',
                 style: GoogleFonts.encodeSansSemiExpanded(),
               ))
         ]),

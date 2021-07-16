@@ -6,7 +6,9 @@ import 'package:studieey/Features/Lectures.dart';
 import 'package:studieey/Screens/LoginSignUpUI.dart';
 
 class DashBoard extends StatefulWidget {
+  static const routeName = "/Dashboard";
   final String userName;
+
   DashBoard(this.userName);
 
   @override
@@ -14,23 +16,46 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-  final _auth = FirebaseAuth.instance;
+  String? userName;
+  @override
+  void initState() {
+    userName = widget.userName;
+    print(userName);
+    super.initState();
+    // you can use this.widget.foo here
+  }
+
+  String? userNameFromState;
+  _DashBoardState({this.userNameFromState});
+
   @override
   Widget build(BuildContext context) {
+    final tacher =
+        ModalRoute.of(context)!.settings.arguments.toString().toLowerCase();
     return SafeArea(
       child: Scaffold(
         drawer: AppDrawer(context),
-        body: Center(
-          child: Container(
-            child: ElevatedButton(
-                onPressed: () {
-                  //FirebaseFirestore.instance.collection('users').doc()
-                  FirebaseAuth.instance.signOut();
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => LoginSignUpUI()));
-                },
-                child: Text("SignOut")),
-          ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child: tacher == 'true' ? Text("Teacher") : Text("Student"),
+            ),
+            Center(
+              child: Container(
+                child: ElevatedButton(
+                    onPressed: () {
+                      //FirebaseFirestore.instance.collection('users').doc()
+                      print(ModalRoute.of(context)!.settings.arguments);
+                      FirebaseAuth.instance.signOut();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => LoginSignUpUI()));
+                    },
+                    child:
+                        tacher == 'true' ? Text("SignOut") : Text("log out")),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -78,7 +103,7 @@ class _DashBoardState extends State<DashBoard> {
                   Padding(
                     padding: EdgeInsets.only(top: 5),
                     child: Text(
-                      widget.userName,
+                      userName!,
                       style: GoogleFonts.sairaSemiCondensed(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -95,8 +120,10 @@ class _DashBoardState extends State<DashBoard> {
             padding: EdgeInsets.all(20),
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Lectures()));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => Lectures(
+                          isTeacher: true,
+                        )));
               },
               child: Row(
                 children: [

@@ -4,7 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:studieey/Features/Lectures.dart';
 import 'package:studieey/Models/Authentication.dart';
-import 'package:studieey/Screens/AdminPanel.dart';
+import 'package:studieey/Screens/AdminDropDown.dart';
+import 'package:studieey/Screens/DashBoard.dart';
+import 'package:studieey/Screens/HomeScreen.dart';
+import 'package:studieey/Screens/LoginSignUpUI.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,8 +15,13 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -28,24 +36,33 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: Lectures()
-          // StreamBuilder(
-          //     stream: FirebaseAuth.instance.authStateChanges(),
-          //     builder: (context, userSnapshot) {
-          //       if (userSnapshot.hasData) {
-          //         // print(userSnapshot.data);
-
-          //         return DashBoard(
-          //           FirebaseAuth.instance.currentUser!.displayName.toString(),
-          //         );
-          //       } else
-          //         return LoginSignUpUI();
-          //     }),
-          ),
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home:
+            // Lectures(
+            //   isTeacher: true,
+            // ),
+            StreamBuilder(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, userSnapshot) {
+                  if (userSnapshot.hasData) {
+                    return DashBoard(
+                      FirebaseAuth.instance.currentUser!.displayName.toString(),
+                    );
+                  } else
+                    return HomeScreen();
+                }),
+        routes: {
+          AdminDropDown.routeName: (ctx) => AdminDropDown(),
+          LoginSignUpUI.routeName: (ctx) => LoginSignUpUI(),
+          DashBoard.routeName: (ctx) {
+            return DashBoard(
+                FirebaseAuth.instance.currentUser!.displayName.toString());
+          },
+        },
+      ),
     );
   }
 }

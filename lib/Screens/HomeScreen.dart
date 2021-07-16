@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studieey/Screens/AdminDropDown.dart';
+import 'package:studieey/Screens/LoginSignUpUI.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const routeName = '/HomeScreen';
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -26,17 +29,26 @@ class HomeScreen extends StatelessWidget {
                   fontSize: deviceHeight * 0.025),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed(AdminDropDown.routeName, arguments: true);
+              },
               child: homeScreenItem(
                   "assets/images/2.svg", deviceHeight, deviceWidth, "Admin"),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed(LoginSignUpUI.routeName, arguments: true);
+              },
               child: homeScreenItem(
                   "assets/images/4.svg", deviceHeight, deviceWidth, "Teacher"),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed(LoginSignUpUI.routeName, arguments: false);
+              },
               child: homeScreenItem(
                   "assets/images/3.svg", deviceHeight, deviceWidth, "Student"),
             ),

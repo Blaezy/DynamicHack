@@ -7,7 +7,9 @@ import 'package:studieey/Models/Slots.dart';
 import 'package:studieey/Models/teacher.dart';
 
 class Lectures extends StatefulWidget {
-  const Lectures({Key? key}) : super(key: key);
+  static const routeName = "/Lectures";
+  bool isTeacher;
+  Lectures({required this.isTeacher});
 
   @override
   _LecturesState createState() => _LecturesState();

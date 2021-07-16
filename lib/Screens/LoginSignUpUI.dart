@@ -5,6 +5,8 @@ import 'package:studieey/Models/UserDetails.dart';
 import 'package:provider/provider.dart';
 
 class LoginSignUpUI extends StatefulWidget {
+  static const routeName = "/LoginSignup";
+
   @override
   _LoginSignUpUIState createState() => _LoginSignUpUIState();
 }
@@ -51,6 +53,10 @@ class _LoginSignUpUIState extends State<LoginSignUpUI> {
 
   @override
   Widget build(BuildContext context) {
+    final Object? teacher =
+        ModalRoute.of(context)!.settings.arguments.toString().toLowerCase();
+    final teacherFlag = teacher == "true" ? true : false;
+
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -226,12 +232,14 @@ class _LoginSignUpUIState extends State<LoginSignUpUI> {
                                     context: context,
                                     email: emailController.text.trim(),
                                     password: passwordController.text.trim(),
+                                    isTeacher: teacherFlag,
                                   )
                               : context.read<AutheticationService>().signUp(
                                     context: context,
                                     name: nameController.text.trim(),
                                     email: emailController.text.trim(),
                                     password: passwordController.text.trim(),
+                                    isTeacher: teacherFlag,
                                   );
                           print(nameController.text.trim());
                         },
@@ -266,6 +274,25 @@ class _LoginSignUpUIState extends State<LoginSignUpUI> {
                           color: Colors.white))
                 ],
               )),
+
+              Center(
+                child: Container(
+                    width: 200,
+                    height: 40,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: Colors.green),
+                        onPressed: () async {
+                          // print(ModalRoute.of(context)!
+                          //     .settings
+                          //     .arguments
+                          //     .runtimeType);
+
+                          print(teacher);
+                          Navigator.of(context).pop();
+                        },
+                        child: Text("Go back",
+                            style: GoogleFonts.encodeSansSemiExpanded()))),
+              ),
             ],
           ),
         )),
